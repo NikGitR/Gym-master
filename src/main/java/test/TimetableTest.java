@@ -271,6 +271,118 @@ class TimetableTest {
                 ).size()
         );
     }
+    @Test
+    void testGetCountByCoaches() {
 
+        Timetable timetable = new Timetable();
+
+        Coach coach1 =
+                new Coach(
+                        "Иванов",
+                        "Иван",
+                        "Иванович"
+                );
+
+        Coach coach2 =
+                new Coach(
+                        "Петров",
+                        "Петр",
+                        "Петрович"
+                );
+
+        Group group =
+                new Group(
+                        "Акробатика",
+                        Age.CHILD,
+                        60
+                );
+
+        timetable.addNewTrainingSession(
+                new TrainingSession(
+                        group,
+                        coach1,
+                        DayOfWeek.MONDAY,
+                        new TimeOfDay(10, 0)
+                )
+        );
+
+        timetable.addNewTrainingSession(
+                new TrainingSession(
+                        group,
+                        coach1,
+                        DayOfWeek.TUESDAY,
+                        new TimeOfDay(10, 0)
+                )
+        );
+
+        timetable.addNewTrainingSession(
+                new TrainingSession(
+                        group,
+                        coach2,
+                        DayOfWeek.WEDNESDAY,
+                        new TimeOfDay(10, 0)
+                )
+        );
+
+        List<CounterOfTrainings> result =
+                timetable.getCountByCoaches();
+
+        assertEquals(2, result.get(0).getCount());
+        assertEquals(1, result.get(1).getCount());
+    }
+
+    @Test
+    void testGetCountByCoachesEmpty() {
+
+        Timetable timetable = new Timetable();
+
+        assertTrue(
+                timetable.getCountByCoaches().isEmpty()
+        );
+    }
+    @Test
+    void testGetCountByCoachesOneCoach() {
+
+        Timetable timetable = new Timetable();
+
+        Coach coach =
+                new Coach(
+                        "Иванов",
+                        "Иван",
+                        "Иванович"
+                );
+
+        Group group =
+                new Group(
+                        "Акробатика",
+                        Age.CHILD,
+                        60
+                );
+
+        timetable.addNewTrainingSession(
+                new TrainingSession(
+                        group,
+                        coach,
+                        DayOfWeek.MONDAY,
+                        new TimeOfDay(10, 0)
+                )
+        );
+
+        timetable.addNewTrainingSession(
+                new TrainingSession(
+                        group,
+                        coach,
+                        DayOfWeek.TUESDAY,
+                        new TimeOfDay(10, 0)
+                )
+        );
+
+        assertEquals(
+                2,
+                timetable.getCountByCoaches()
+                        .get(0)
+                        .getCount()
+        );
+    }
 
 }
